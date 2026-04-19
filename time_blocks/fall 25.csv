@@ -24,6 +24,10 @@ Monday,18:30:00,87
 Monday,19:00:00,64
 Monday,19:30:00,44
 Monday,20:00:00,20
+Monday,20:30:00,21
+Monday,21:00:00,13
+Monday,21:30:00,10
+Monday,22:00:00,4
 Tuesday,08:00:00,10
 Tuesday,08:30:00,45
 Tuesday,09:00:00,60
@@ -49,6 +53,10 @@ Tuesday,18:30:00,86
 Tuesday,19:00:00,65
 Tuesday,19:30:00,48
 Tuesday,20:00:00,23
+Tuesday,20:30:00,21
+Tuesday,21:00:00,16
+Tuesday,21:30:00,8
+Tuesday,22:00:00,2
 Wednesday,08:00:00,12
 Wednesday,08:30:00,60
 Wednesday,09:00:00,72
@@ -74,6 +82,10 @@ Wednesday,18:30:00,81
 Wednesday,19:00:00,61
 Wednesday,19:30:00,37
 Wednesday,20:00:00,17
+Wednesday,20:30:00,18
+Wednesday,21:00:00,11
+Wednesday,21:30:00,5
+Wednesday,22:00:00,2
 Thursday,08:00:00,10
 Thursday,08:30:00,44
 Thursday,09:00:00,60
@@ -99,6 +111,10 @@ Thursday,18:30:00,80
 Thursday,19:00:00,58
 Thursday,19:30:00,42
 Thursday,20:00:00,16
+Thursday,20:30:00,15
+Thursday,21:00:00,10
+Thursday,21:30:00,1
+Thursday,22:00:00,1
 Friday,08:00:00,3
 Friday,08:30:00,6
 Friday,09:00:00,16
@@ -124,3 +140,6 @@ Friday,18:30:00,9
 Friday,19:00:00,6
 Friday,19:30:00,6
 Friday,20:00:00,2
+Friday,20:30:00,2
+Friday,21:00:00,2
+Friday,21:30:00,1
