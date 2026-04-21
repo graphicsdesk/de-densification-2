@@ -43,8 +43,7 @@ def save_results_csv(data, folder="output"):
     rows = []
 
     for d in data:
-        course = d.get("course", {})  # ⭐ IMPORTANT FIX
-
+        course = d.get("course", {})
         base = {
             "course_identifier": course.get("course_identifier"),
             "dept_code": course.get("department", {}).get("dept_code"),
@@ -122,6 +121,7 @@ async def fetch(session, url, params=None, retries=3):
 # Parse department codes from UWB A–Z page
 # ------------------------------------------------------
 def parse_department_page(html, semester):
+    print(html[:500])
     soup = BeautifulSoup(html, "lxml")
 
     # Accept 2–6 letter department codes (fix for UNHS, UNHI, GUHIS, EAAS, etc.)
@@ -236,4 +236,4 @@ def scrape_courses(term_code):
 # Run
 # ------------------------------------------------------
 if __name__ == "__main__":
-    scrape_courses("20263")  #  # CHANGE THIS — <yearsemester> (spring - 1, summer - 2, fall - 3)
+    scrape_courses("20261")  #  # CHANGE THIS — <yearsemester> (spring - 1, summer - 2, fall - 3)
