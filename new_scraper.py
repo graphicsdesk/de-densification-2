@@ -12,9 +12,8 @@ VERGIL_ROOT = "https://vergil.registrar.columbia.edu"
 UWB_ROOT = "http://www.columbia.edu/cu/bulletin/uwb/sel"
 TERM_WORDS = [None, "Spring", "Summer", "Fall"]
 
-# ------------------------------------------------------
+
 # Save JSON locally
-# ------------------------------------------------------
 def save_results_locally(data, folder="output"):
     os.makedirs(folder, exist_ok=True)
     timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
@@ -24,9 +23,7 @@ def save_results_locally(data, folder="output"):
     print(f"\nSaved {len(data)} courses → {json_path}")
     return json_path
 
-# ------------------------------------------------------
-# Save CSV
-# ------------------------------------------------------
+# Save CSV. 
 def save_results_csv(data, folder="output"):
     if not data:
         print("No courses to save as CSV.")
@@ -105,9 +102,7 @@ def save_results_csv(data, folder="output"):
     print(f"Saved {len(rows)} rows → {csv_path}")
     return csv_path
 
-# ------------------------------------------------------
 # Generic fetch helper
-# ------------------------------------------------------
 async def fetch(session, url, params=None, retries=3):
     for _ in range(retries):
         try:
@@ -117,9 +112,7 @@ async def fetch(session, url, params=None, retries=3):
             await asyncio.sleep(0.4)
     return None
 
-# ------------------------------------------------------
 # Parse department codes from UWB A–Z page
-# ------------------------------------------------------
 def parse_department_page(html, semester):
     print(html[:500])
     soup = BeautifulSoup(html, "lxml")
@@ -139,23 +132,19 @@ def parse_department_page(html, semester):
 
     return depts
 
-# ------------------------------------------------------
 # Main scraper
-# ------------------------------------------------------
 def scrape_courses(term_code):
     semester = TERM_WORDS[int(term_code[-1])] + term_code[:-1]
     print(f"\n=== Scraping {semester} ===")
     print("> Fetching departments…")
 
-    # -----------------------------
     # Get department list
-    # -----------------------------
     async def get_departments():
         timeout = ClientTimeout(total=30)
         async with ClientSession(timeout=timeout) as session:
             tasks = [
                 fetch(session, f"{UWB_ROOT}/dept-{chr(c)}.html")
-                for c in range(65, 91)
+                for c in range(65, 91) #for every letter of the alphabet
             ]
             pages = await asyncio.gather(*tasks)
 
@@ -168,19 +157,17 @@ def scrape_courses(term_code):
             return sorted(set(all_depts))
 
     departments = asyncio.run(get_departments())
-    print(f"> Found {len(departments)} departments from UWB")
+    print(f"> Found {len(departments)} departments from UWB") #number of departments in that semester
 
     # -----------------------------
-    # Add hardcoded Columbia History fallback departments
+    # Add hardcoded departments we need
     # -----------------------------
-    MANUAL_DEPTS = ["HIST", "UNHS", "UNHI", "GUHIS"]
+    MANUAL_DEPTS = ["HIST", "UNHS", "UNHI", "GUHIS", "MATH"]
     departments = sorted(set(departments + MANUAL_DEPTS))
     print(f"> Total departments (including manual): {len(departments)}")
     print("> Added manual fallbacks:", MANUAL_DEPTS)
 
-    # -----------------------------
     # Scrape courses
-    # -----------------------------
     async def get_courses():
         timeout = ClientTimeout(total=50)
         async with ClientSession(timeout=timeout) as session:
@@ -199,7 +186,7 @@ def scrape_courses(term_code):
                     print(f"!! No response for {dept}")
                     continue
 
-                # Fix JSON prefix (Columbia adds junk before '[')
+                # Fix JSON prefix
                 text = raw.decode("utf-8", errors="ignore")
                 json_start = text.find("[")
                 if json_start == -1:
@@ -226,14 +213,12 @@ def scrape_courses(term_code):
     # Execute async scraping
     all_courses = asyncio.run(get_courses())
 
-    # -----------------------------
     # Save results
-    # -----------------------------
     save_results_locally(all_courses)
     save_results_csv(all_courses)
 
 # ------------------------------------------------------
-# Run
+# Run the scraper.
 # ------------------------------------------------------
 if __name__ == "__main__":
-    scrape_courses("20261")  #  # CHANGE THIS — <yearsemester> (spring - 1, summer - 2, fall - 3)
+    scrape_courses("20261")  # <yearsemester> (spring - 1, summer - 2, fall - 3). ex. 20261 is Spring 2026
