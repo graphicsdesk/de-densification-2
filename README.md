@@ -10,7 +10,7 @@ Per University communications about departments subject to de-densification, we 
 
 'desenificationgfx (1).ipynb' cleans raw course data and sorts classes into time buckets based on class times. 
 
-'desenificationgfx (1).ipynb' cleans raw course data and finds the percent of classes in each department starting from 10 am-2 pm (exclusive).
+'desenificationgfx (1).ipynb' cleans raw course data and finds the percent of classes in each department starting from 10 am (inclusive)-2 pm (exclusive).
 
 ## <b>The scraper:<b>
 'new_scraper.py' scrapes the CU Directory of Classes and Vergil to retrieve course data. It scrapes the CU Directory of Classes for the department code. Our scraper manually adds the department codes for departments in the Faculty of Arts and Sciences and the School of Engineering and Applied Science. The scraper can be run by editing the year and semester when running 'scrape_courses()'. This follows the key '<yearsemester> (spring - 1, summer - 2, fall - 3)'
